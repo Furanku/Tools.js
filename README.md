@@ -1,4 +1,4 @@
 Tooljs
 ======
 
-Tooljs as an assembly of various javascript utilities.
+Tooljs is an assembly of various javascript utilities.
