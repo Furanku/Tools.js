@@ -32,7 +32,7 @@ namespace toolsjs.http.cookie
         {
             document.cookie = cookie.name +'='+ cookie.value + cookie.expiration +'; path=/';
             
-            this._createdCookies.push(Cookie);
+            this._createdCookies.push(cookie);
             this._cookies.push(cookie);
         }
         
@@ -67,19 +67,17 @@ namespace toolsjs.http.cookie
         */
         public update(cookie: Cookie)
         {
-            this.init();
-            var cookie = this.read(name);
-            
-            var cookie = this.get()
-            
-            // Cookie doesn't exist
-            if(cookie === false)
-                return false;
-                
-            var oldExpires = new Date(cookie.expires);        
-            var newExpires = new Date();
-            newExpires.setTime( oldExpires - newExpires.getTime() );
-            
+            for(let existingCookie of this._cookies) {
+                if(cookie.name == existingCookie.name) {
+                    let oldExpiration = new Date(existingCookie.expiration);        
+                    let newExpiration = new Date();
+                    
+                    newExpiration.setTime( oldExpiration.getTime() - newExpiration.getTime() );
+                    
+                    if(newExpiration < cookie.expiration)
+                    
+                }
+            }        
             
             return this.create(name, value, newExpires.toGMTString());
         }

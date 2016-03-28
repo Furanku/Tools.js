@@ -3,11 +3,10 @@ namespace toolsjs.http.cookie
     
     export class Cookie
     {
-        public name:       string;
-        public value:      any;
-        public expiration: int;
+        public name:  string;
+        public value: any;
         
-        private _expires: string;
+        private _expiration: Date;
         
         
         /**
@@ -15,35 +14,39 @@ namespace toolsjs.http.cookie
         *
         * @param  name        string  Name of cookie to create
         * @param  value       mixed   Value to stock
-        * @param  expiration  int     Time life of cookie
+        * @param  expiration  Date    Time life of cookie
         */
-        constructor(name: string, value:any, expiration: int)
+        constructor(name: string, value:any, expiresAt: Date)
         {
             this.name  = name;
             this.value = value;
-            this._setExpires(expiration);
+            this._setExpiration(expiresAt);
         }
         
         
-        private _setExpires(expiration: int): void
+        private _setExpiration(expiresAt: Date): void
         {
-            if(expiration > 0) {
-                let date = new Date();
-                date.setTime(date.getTime() + (hours*3600*1000));
-			    
-                this._expires = ';expires='+ date.toGMTString();
-                this.expiration = expiration;
+            let currentDate = new Date();
+            
+            if(expiresAt.getTime() > currentDate.getTime()) {    
+                //this._expiration = ';expires='+ expiresAt.toUTCString();
+                this._expiration = expiresAt;
             }
             else {
-                this._expires   = "";
-                this.expiration = 0;
+                //this._expiration   = "";
+                this.expiration = null;
             }
         }
         
         
-        set expiration(hours: int): void
+        get expiration(): Date
         {
-            this._setExpires(hours);            
+            return this._expiration;
+        }
+        
+        set expiration(expiresAt: Date)
+        {
+            this._setExpiration(expiresAt);            
         }    
     }
 }
